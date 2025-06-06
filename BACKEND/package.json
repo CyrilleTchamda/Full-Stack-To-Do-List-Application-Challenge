@@ -1,4 +1,8 @@
 {
+  "name": "blue_window_test",
+  "version": "1.0.0",
+  "description": "fullstack todo app",
+  "main": "index.js",
   "dependencies": {
     "bcrypt": "^6.0.0",
     "cors": "^2.8.5",
