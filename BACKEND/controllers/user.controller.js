@@ -7,8 +7,6 @@ var bcrypt = require('bcrypt')
 const User = db.user
 
 
-console.log(process.env.API_KEY);
-
 // main work
 
 // 1. create user

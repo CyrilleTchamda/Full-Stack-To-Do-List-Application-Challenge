@@ -26,6 +26,10 @@ app.use(cors());
 const routerUser = require('./routes/user.routes')
 app.use('/api/user', routerUser)
 
+// todos
+const routerTodo = require('./routes/todo.routes')
+app.use('/api/todo', routerTodo)
+
 
 
 //port
