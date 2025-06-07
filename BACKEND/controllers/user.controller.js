@@ -15,7 +15,7 @@ const registerUser = async (req, res) => {
     try {
         let email = await User.findOne({ where: { email: req.body.email }})
         if (email) {
-            res.status(409).send({email: 'User already exist'})
+            res.status(409).send({message: 'User already exist'})
         } else {
             const salt = await bcrypt.genSalt(10);
 
