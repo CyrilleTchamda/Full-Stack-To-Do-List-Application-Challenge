@@ -25,6 +25,8 @@ export class TodoListComponent {
   messageFetch = '';
   todos: any[] = [];
 
+  isLoadingDelete = false;
+
   today = new Date();
   minDate = this.today.toISOString().split('T')[0];
 
@@ -88,6 +90,33 @@ export class TodoListComponent {
         console.error('Erreur GET', err);
         this.isLoadingFetch = false;
         this.messageFetch = err.error.message;
+      }
+    });
+  }
+
+
+  editTodo(todo: any) {
+    console.log('Modifier', todo);
+  }
+
+  confirmDelete(todo: any) {
+    const confirmed = window.confirm(`Do you really want to delete the task: "${todo.title}"?`);
+    if (confirmed) {
+      this.deleteTodo(todo);
+    }
+  }
+
+  deleteTodo(todo: any) {
+    this.isLoadingDelete = true;
+    this.todoService.deleteTodo(todo.id).subscribe({
+      next: () => {
+        this.isLoadingDelete = false;
+        this.getTodos();
+      },
+      error: (err) => {
+        this.isLoadingDelete = false;
+        console.error('Erreur DELETE', err);
+        this.messageFetch = err.error?.message || 'An error occurred while deleting the todo.';
       }
     });
   }
