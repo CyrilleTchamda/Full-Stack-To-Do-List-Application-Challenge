@@ -14,6 +14,8 @@ export class TodoService {
         return this.http.post<any>(this.apiUrl, data);
     }
 
-
     
+    getTodos(): Observable<any> {
+        return this.http.get<any>(this.apiUrl);
+    }
 }
