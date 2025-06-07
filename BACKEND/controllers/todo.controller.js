@@ -18,7 +18,7 @@ const addTodo = async (req, res) => {
         if (err) {
             res.status(401).send('Unauthorized')
         }else if ( !req.body.title || !req.body.description ) {
-            res.status(400).send({data:"all field required"})
+            res.status(400).send({message:"all field required"})
         }else {
             try {
                 let info = {

@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { Router, RouterLink } from '@angular/router';
-import { RegisterService } from './register.service';
+import { RegisterService } from '../_services/register.service';
+import { CookiesService } from '@ngx-utils/cookies';
 
 @Component({
   selector: 'app-register',
@@ -20,7 +21,7 @@ export class RegisterComponent {
   isLoading = false;
 
 
-  constructor(private registerService: RegisterService,  private router: Router) {}
+  constructor(private registerService: RegisterService,  private router: Router, cookies: CookiesService) {}
 
   register() {
     console.log('Registering user:', this.user);
