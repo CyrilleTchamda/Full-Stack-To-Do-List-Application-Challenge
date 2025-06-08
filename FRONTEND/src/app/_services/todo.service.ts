@@ -26,4 +26,8 @@ export class TodoService {
     updateTodo(id: number, data: any): Observable<any> {
         return this.http.put<any>(`${this.apiUrl}/${id}`, data);
     }
+
+    toggleTodo(id: number, done: boolean): Observable<any> {
+        return this.http.put<any>(`${this.apiUrl}/status/${id}`, { done });
+    }
 }

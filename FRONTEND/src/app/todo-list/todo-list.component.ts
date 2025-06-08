@@ -168,6 +168,19 @@ export class TodoListComponent {
     };
   }
 
-  
+  toggleDone(id:number, done:boolean){
+    this.isLoadingUpdate = true;
+    this.todoService.toggleTodo(id, done ).subscribe({
+      next: () => {
+        this.isLoadingUpdate = false;
+        this.getTodos();
+      },
+      error: (err) => {
+        console.error('Erreur TOGGLE', err);
+        this.isLoadingUpdate = false;
+        this.message = err.error?.message || 'An error occurred while toggling the todo.';
+      }
+    });
+  }
   
 }

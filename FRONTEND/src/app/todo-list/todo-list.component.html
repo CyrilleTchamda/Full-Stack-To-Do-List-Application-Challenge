@@ -104,11 +104,22 @@
                                 <input type="date" class="form-control form-control-sm" [(ngModel)]="editTodo.due_date" [min]="minDate" [ngModel]="editTodo.due_date ? (editTodo.due_date | date:'yyyy-MM-dd') : ''" />
                             </ng-template>
                         </td>
-                        <td class="fs-6">
+                        <td class="fs-6 d-flex flex-nowrap">
                             <ng-container *ngIf="editIndex !== i">
-                                
-                                <button class="btn btn-sm btn-outline-primary me-2" (click)="startEdit(i, todo)">Modifier</button>
-                                <button class="btn btn-sm btn-outline-danger" [disabled]="isLoading" (click)="confirmDelete(todo)">Supprimer</button>
+                                <div class="d-flex flex-nowrap align-items-center ms-2">
+                                    <div class="form-check form-switch py-0 m-0 h-auto" title="Marquer comme fait/non fait">
+                                        <input
+                                            class="form-check-input rounded-pill shadow-none"
+                                            type="checkbox"
+                                            role="switch"
+                                            [checked]="todo.done"
+                                            [disabled]="isLoading"
+                                            (change)="toggleDone(todo.id, !todo.done)"
+                                        />
+                                    </div>
+                                </div>
+                                <button class="btn btn-sm btn-outline-primary me-2" (click)="startEdit(i, todo)">Modify</button>
+                                <button class="btn btn-sm btn-outline-danger" [disabled]="isLoading" (click)="confirmDelete(todo)">Delete</button>
                             </ng-container>
                             <ng-container *ngIf="editIndex === i">
                                 <button class="btn btn-sm btn-success me-2" [disabled]="isLoading" (click)="saveEdit(todo.id)">Save</button>
