@@ -27,6 +27,8 @@ export class TodoListComponent {
 
   isLoadingDelete = false;
 
+  isLoadingUpdate = false;
+
   today = new Date();
   minDate = this.today.toISOString().split('T')[0];
 
@@ -46,8 +48,8 @@ export class TodoListComponent {
     created_at: '',
     updated_at: ''
   }
-  
-  
+
+
   constructor(private todoService: TodoService,  private router: Router, private authService: AuthService,) {}
   
   ngOnInit() {
@@ -94,11 +96,6 @@ export class TodoListComponent {
     });
   }
 
-
-  editTodo(todo: any) {
-    console.log('Modifier', todo);
-  }
-
   confirmDelete(todo: any) {
     const confirmed = window.confirm(`Do you really want to delete the task: "${todo.title}"?`);
     if (confirmed) {
@@ -120,4 +117,57 @@ export class TodoListComponent {
       }
     });
   }
+
+
+
+
+
+  
+
+  editIndex: number | null = null;
+  editTodo: any = {
+    title: '',
+    description: '',
+    due_date: ''
+  };
+
+
+  startEdit(index: number, todo: any): void {
+    this.editIndex = index;
+    this.editTodo = { ...todo };    
+  }
+
+
+  saveEdit(index: number): void {
+    if (this.editIndex === null) return;
+
+    this.isLoadingUpdate = true;
+
+
+    this.todoService.updateTodo(index, this.editTodo).subscribe({
+      next: () => {
+        this.cancelEdit();
+        this.isLoadingUpdate = false;
+        this.getTodos();
+      },
+      error: (err) => {
+        console.error('Erreur UPDATE', err);
+        this.isLoadingUpdate = false;
+        this.message = err.error?.message || 'An error occurred while updating the todo.';
+      }
+    });
+  }
+
+
+  cancelEdit(): void {
+    this.editIndex = null;
+    this.editTodo = {
+      title: '',
+      description: '',
+      due_date: ''
+    };
+  }
+
+  
+  
 }

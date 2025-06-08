@@ -80,13 +80,42 @@
                 <ng-container *ngIf="!isLoadingFetch && todos.length > 0">
                     <tr *ngFor="let todo of todos; let i = index">
                         <td class="fs-6 fw-bold">{{ i + 1 }}</td>
-                        <td class="fs-6">{{ todo.title }}</td>
-                        <td class="fs-6">{{ todo.description }}</td>
-                        <td class="fs-6">{{ todo.due_date | date: 'dd MMM yyyy' }}</td>
                         <td class="fs-6">
-                            <button class="btn btn-sm btn-outline-primary me-2" >Modifier</button>
-                            <button class="btn btn-sm btn-outline-danger" [disabled]="isLoading" (click)="confirmDelete(todo)">Supprimer</button>
+                            <ng-container *ngIf="editIndex !== i; else editTitle">
+                                {{ todo.title }}
+                            </ng-container>
+                            <ng-template #editTitle>
+                                <input type="text" class="form-control form-control-sm" [(ngModel)]="editTodo.title" />
+                            </ng-template>
                         </td>
+                        <td class="fs-6">
+                            <ng-container *ngIf="editIndex !== i; else editDescription">
+                                {{ todo.description }}
+                            </ng-container>
+                            <ng-template #editDescription>
+                                <input type="text" class="form-control form-control-sm" [(ngModel)]="editTodo.description" />
+                            </ng-template>
+                        </td>
+                        <td class="fs-6">
+                            <ng-container *ngIf="editIndex !== i; else editDueDate">
+                                {{ todo.due_date | date: 'dd MMM yyyy' }}
+                            </ng-container>
+                            <ng-template #editDueDate>
+                                <input type="date" class="form-control form-control-sm" [(ngModel)]="editTodo.due_date" [min]="minDate" [ngModel]="editTodo.due_date ? (editTodo.due_date | date:'yyyy-MM-dd') : ''" />
+                            </ng-template>
+                        </td>
+                        <td class="fs-6">
+                            <ng-container *ngIf="editIndex !== i">
+                                
+                                <button class="btn btn-sm btn-outline-primary me-2" (click)="startEdit(i, todo)">Modifier</button>
+                                <button class="btn btn-sm btn-outline-danger" [disabled]="isLoading" (click)="confirmDelete(todo)">Supprimer</button>
+                            </ng-container>
+                            <ng-container *ngIf="editIndex === i">
+                                <button class="btn btn-sm btn-success me-2" [disabled]="isLoading" (click)="saveEdit(todo.id)">Save</button>
+                                <button class="btn btn-sm btn-secondary" [disabled]="isLoading" (click)="cancelEdit()">Cancel</button>
+                            </ng-container>
+                        </td>
+
                     </tr>
                 </ng-container>
 
